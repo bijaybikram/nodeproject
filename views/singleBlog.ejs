@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="card.css">
+    <title>Card Example</title>
+    <style>
+        /* Reset some default styles */
+body, h2, h3, p {
+    
+    margin: 0;
+    padding: 0;
+}
+
+
+
+/* Card styles */
+.card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 300px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.card-subtitle {
+    font-size: 1.2rem;
+    color: #555;
+    margin-top: 10px;
+}
+
+.card-description {
+    font-size: 1rem;
+    color: #777;
+    margin-top: 10px;
+}
+
+    </style>
+</head>
+<body>
+    <!-- <nav>
+        <a href="/createBlog">Add Blog</a>
+    </nav> -->
+    <div class="card">
+        <h2 class="card-title"><%- blog[0].title %></h2>
+        <h3 class="card-subtitle"><%- blog[0].subTitle %></h3>
+        <p class="card-description"><%- blog[0].description%></p>
+        <footer>
+            <p> 
+                Published Date: <%- blog[0].createdAt.toISOString().slice(0,10) %>
+            </p>
+            <button><a href="/delete/<%- blog[0].id %>"> Delete </a></button>
+        </footer>
+    </div>
+    
+</body>
+</html>

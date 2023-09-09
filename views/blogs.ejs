@@ -76,29 +76,24 @@
     </header>
     
 
-    <main>
         <div class="container">
-            <div class="card">
-                <h2>Card 1</h2>
-                <h3>Subtitle 1</h3>
-                <p>Description for Card 1 goes here.</p>
-            </div>
-    
-            <div class="card">
-                <h2>Card 2</h2>
-                <h3>Subtitle 2</h3>
-                <p>Description for Card 2 goes here.</p>
-            </div>
-    
-            <div class="card">
-                <h2>Card 3</h2>
-                <h3>Subtitle 3</h3>
-                <p>Description for Card 3 goes here.</p>
-            </div>
+          <%  if(everyBlogs.length == 0){ %>
+                <h1>No Blog</h1>
+         <%   }else{  %>
+                <% everyBlogs.length > 0 && everyBlogs.forEach((blog) => { %>
+                    <div class="card">
+                        <h2><%- blog.title %></h2>
+                        <h3><%- blog.subTitle %></h3>
+                        <p><%-blog.description.slice(0,90) %>...</p>
+                        <a href="/single/<%- blog.id %>">Read More</a>
+                    </div>
+                     
+               <% }) %>
+           <% } %>
+            
         </div>
 
         <!-- Add more blog cards here -->
-    </main>
 
     <footer>
         <p>&copy; 2023 Our Blog</p>
