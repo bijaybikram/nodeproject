@@ -3,14 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="card.css">
     <title>Card Example</title>
     <style>
         /* Reset some default styles */
 body, h2, h3, p {
-    
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
     margin: 0;
     padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+}
+
+nav li {
+    list-style: none;
+    color: #fff;
+    text-decoration: none;
+    margin: 0 20px;
 }
 
 
@@ -22,7 +41,7 @@ body, h2, h3, p {
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     padding: 20px;
-    width: 300px;
+    width: 500px;
     margin: 20px auto;
     text-align: center;
 }
@@ -47,9 +66,12 @@ body, h2, h3, p {
     </style>
 </head>
 <body>
-    <!-- <nav>
-        <a href="/createBlog">Add Blog</a>
-    </nav> -->
+    <header>
+        <h1>CMS</h1>
+        <nav>
+            <li>Blog Details</li>
+        </nav>
+    </header>
     <div class="card">
         <h2 class="card-title"><%- blog[0].title %></h2>
         <h3 class="card-subtitle"><%- blog[0].subTitle %></h3>
@@ -59,6 +81,7 @@ body, h2, h3, p {
                 Published Date: <%- blog[0].createdAt.toISOString().slice(0,10) %>
             </p>
             <button><a href="/delete/<%- blog[0].id %>"> Delete </a></button>
+            <button><a href="/edit/<%- blog[0].id %>"> Edit </a></button>
         </footer>
     </div>
     

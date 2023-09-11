@@ -19,30 +19,11 @@ app.get("/", async (req, res) => {
   // console.log(allBlogs);
   res.render("blogs", { everyBlogs: allBlogs });
 });
+//
 
 // createblog
 app.get("/createblog", (req, res) => {
   res.render("createBlog");
-});
-
-// single blog page
-app.get("/single/:id", async (req, res) => {
-  const id = req.params.id;
-
-  //id ko data magna paryo
-  const blog = await blogs.findAll({ where: { id: id } });
-  // console.log(blog);
-
-  res.render("singleBlog", { blog: blog });
-});
-
-// delete blog page
-app.get("/delete/:id", async (req, res) => {
-  const id = req.params.id;
-
-  //delete gardey yo blog vanna lai
-  await blogs.destroy({ where: { id: id } });
-  res.redirect("/");
 });
 
 app.post("/createblog", async (req, res) => {
@@ -63,6 +44,57 @@ app.post("/createblog", async (req, res) => {
 
   res.redirect("/");
   // res.send("form submitted succesfully!");
+});
+//
+
+// single blog page
+app.get("/single/:id", async (req, res) => {
+  const id = req.params.id;
+
+  //id ko data magna paryo
+  const blog = await blogs.findAll({ where: { id: id } });
+  // console.log(blog);
+
+  res.render("singleBlog", { blog: blog });
+});
+
+// delete blog page
+app.get("/delete/:id", async (req, res) => {
+  const id = req.params.id;
+
+  //delete gardey yo blog vanna lai
+  await blogs.destroy({ where: { id: id } });
+  res.redirect("/");
+});
+//
+
+// Edit blog
+app.get("/edit/:id", async (req, res) => {
+  const id = req.params.id;
+  console.log(req.body);
+
+  // find blog of that id
+  const blog = await blogs.findAll({ where: { id: id } });
+  //supply blog data to ejs
+  res.render("editBlog", { blog: blog });
+});
+
+app.post("/editBlog/:id", async (req, res) => {
+  const id = req.params.id;
+  const title = req.body.title;
+  const subTitle = req.body.subtitle;
+  const description = req.body.description;
+
+  await blogs.update(
+    {
+      title: title,
+      subTitle: subTitle,
+      description: description,
+    },
+    { where: { id: id } }
+  );
+
+  res.redirect("/single/" + id);
 });
 
 app.listen(3000, function () {
