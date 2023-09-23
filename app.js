@@ -1,6 +1,19 @@
 const express = require("express");
 const { blogs } = require("./model/index");
+// const {
+//   renderCreateBlog,
+//   createBlog,
+//   allBlog,
+//   singleBlog,
+//   deleteBlog,
+//   renderEditBlog,
+//   editBlog,
+// } = require("./controller/blog/blogController");
+const { route } = require("./routes/blogRoutes");
 const app = express();
+
+// importing routes
+const blogRoute = require("./routes/blogRoutes");
 
 //datebase connection
 require("./model/index");
@@ -15,90 +28,27 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// defining route
+app.use("", blogRoute);
+
 // allBlog
-app.get("/", async (req, res) => {
-  //table bata data nikalna paryo
-  const allBlogs = await blogs.findAll();
-  // console.log(allBlogs);
-  res.render("blogs", { everyBlogs: allBlogs });
-});
-//
+// app.get("/", allBlog);
 
 // createblog
-app.get("/createblog", (req, res) => {
-  res.render("createBlog");
-});
+// app.get("/createblog", renderCreateBlog);
 
-app.post("/createblog", async (req, res) => {
-  // first approach
-  // const title = req.body.title
-  // const description  = req.body.description
-  // const subTitle = req.body.subtitle
-
-  //second approach
-  const { title, subtitle, description } = req.body;
-  // console.log(title, subtitle, description);
-
-  await blogs.create({
-    title: title,
-    subTitle: subtitle,
-    description: description,
-  });
-
-  res.redirect("/");
-  // res.send("form submitted succesfully!");
-});
-//
+// app.post("/createblog", createBlog);
 
 // single blog page
-app.get("/single/:id", async (req, res) => {
-  const id = req.params.id;
-
-  //id ko data magna paryo
-  const blog = await blogs.findAll({ where: { id: id } });
-  // console.log(blog);
-
-  res.render("singleBlog", { blog: blog });
-});
-
-// delete blog page
-app.get("/delete/:id", async (req, res) => {
-  const id = req.params.id;
-
-  //delete gardey yo blog vanna lai
-  await blogs.destroy({ where: { id: id } });
-  res.redirect("/");
-});
-//
+// app.get("/single/:id", singleBlog);
 
 // Edit blog
-app.get("/edit/:id", async (req, res) => {
-  const id = req.params.id;
-  console.log(req.body);
+// app.get("/edit/:id", renderEditBlog);
 
-  // find blog of that id
-  const blog = await blogs.findAll({ where: { id: id } });
-  //supply blog data to ejs
-  res.render("editBlog", { blog: blog });
-});
+// app.post("/editBlog/:id", editBlog);
 
-app.post("/editBlog/:id", async (req, res) => {
-  const id = req.params.id;
-  const title = req.body.title;
-  const subTitle = req.body.subtitle;
-  const description = req.body.description;
-
-  await blogs.update(
-    {
-      title: title,
-      subTitle: subTitle,
-      description: description,
-    },
-    { where: { id: id } }
-  );
-
-  res.redirect("/single/" + id);
-});
+// delete blog page
+// app.get("/delete/:id", deleteBlog);
 
 app.listen(3000, function () {
   console.log("NodeJS project has started at port 3000");

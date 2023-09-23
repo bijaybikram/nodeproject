@@ -16,12 +16,12 @@ body {
 header {
     background-color: #333;
     color: #fff;
+    padding: 10px 0;
     text-align: center;
-    padding: 20px 0;
 }
 
-header h1 {
-    font-size: 2rem;
+header a{
+    color: #f0f0f0;
 }
 
 nav {
@@ -30,7 +30,8 @@ nav {
 }
 
 /* navbar */
-nav li {
+nav a{
+    padding-top: 20px;
     list-style: none;
     color: #fff;
     text-decoration: none;

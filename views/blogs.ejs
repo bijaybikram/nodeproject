@@ -1,12 +1,15 @@
-<%- include('components/blogboiler') %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Example</title>
+    <link rel="stylesheet" href="/styles/blog.css">
+</head>
 
 <body>
-    <header>
-        <h1> <a href="/">CMS</a></h1>
-        <nav>
-            <a href="/createBlog">Add Blog</a>
-        </nav>
-    </header>
+    
+    <%- include('components/navbar') %>
     
 
         <div class="container">
@@ -27,9 +30,5 @@
         </div>
 
         <!-- Add more blog cards here -->
-
-    <footer>
-        <p>&copy; 2023 Our Blog</p>
-    </footer>
 </body>
 </html>

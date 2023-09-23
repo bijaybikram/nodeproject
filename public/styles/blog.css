@@ -13,12 +13,17 @@ header {
     text-align: center;
 }
 
+header a{
+    color: #f0f0f0;
+}
+
+
 nav {
     display: flex;
     justify-content: center;
 }
 
-nav li {
+nav a{
     list-style: none;
     color: #fff;
     text-decoration: none;
