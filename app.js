@@ -14,6 +14,7 @@ const app = express();
 
 // importing routes
 const blogRoute = require("./routes/blogRoutes");
+const authRoute = require("./routes/authRoute");
 
 //datebase connection
 require("./model/index");
@@ -30,6 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // defining route
 app.use("", blogRoute);
+app.use("", authRoute);
 
 // allBlog
 // app.get("/", allBlog);
