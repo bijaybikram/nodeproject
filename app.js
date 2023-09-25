@@ -1,5 +1,7 @@
 const express = require("express");
 const { blogs } = require("./model/index");
+require("dotenv").config(); //requiring dotenv
+
 // const {
 //   renderCreateBlog,
 //   createBlog,
