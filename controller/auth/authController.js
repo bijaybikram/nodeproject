@@ -55,7 +55,7 @@ exports.loginUser = async (req, res) => {
           expiresIn: "30d",
         }
       );
-      res.cookie("token", token, { secure: true, expiresIn: "120" }); // browser ma application vanni tab vitra cookies ma save hunxa
+      res.cookie("token", token); // browser ma application vanni tab vitra cookies ma save hunxa [cookie vitra rakhna milxa expiry set garna { secure: true, expiresIn: "120" }]
 
       // console.log(process.env.SECRETKEY);
       res.send("login success!");
@@ -65,4 +65,9 @@ exports.loginUser = async (req, res) => {
 
     // check if password matches or not
   }
+};
+
+exports.logOut = (req, res) => {
+  res.clearCookie("token");
+  res.redirect("/login");
 };

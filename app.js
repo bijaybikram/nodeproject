@@ -1,5 +1,6 @@
 const express = require("express");
 const { blogs } = require("./model/index");
+const cookieParser = require("cookie-parser");
 require("dotenv").config(); //requiring dotenv
 
 // const {
@@ -21,15 +22,24 @@ const authRoute = require("./routes/authRoute");
 //datebase connection
 require("./model/index");
 
+//cookie data lai parse garauna
+app.use(cookieParser());
+
 // telling the nodejs to set view-engine to ejs
 app.set("view engine", "ejs");
 
 //node js lai file access garna dey vaneko
 app.use(express.static("public"));
+app.use(express.static("uploads/"));
 
 // form bata data aairaxa parse gara or handle gar vaneko ho
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use((req, res, next) => {
+  res.locals.currentUser = req.cookies.token;
+  next();
+});
 
 // defining route
 app.use("", blogRoute);

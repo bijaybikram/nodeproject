@@ -12,9 +12,12 @@
 
     <div class="container">
         <h2>Submit Your Information</h2>
-        <form class="blog-form" action="/createblog" method="post">
+        <form class="blog-form" action="/createblog" method="post" enctype="multipart/form-data">
             <label for="title">Blog Title:</label>
             <input type="text" id="title" name="title" placeholder="Enter your blog title" required>
+            
+            <label for="image">Blog Image:</label>
+            <input type="file" id="image" name="image" placeholder="Enter your blog title" required>
 
             <label for="subtitle">Blog Subtitle:</label>
             <input type="text" id="subtitle" name="subtitle" placeholder="Enter your blog subtitle" required>

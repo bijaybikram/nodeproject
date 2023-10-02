@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Card Example</title>
+    <title>My Blogs</title>
     <link rel="stylesheet" href="/styles/blog.css">
 </head>
 
@@ -13,17 +13,15 @@
     
 
         <div class="container">
-          <%  if(everyBlogs.length == 0){ %>
+          <%  if(myBlogs.length == 0){ %>
                 <h1>No Blog</h1>
          <%   }else{  %>
-                <% everyBlogs.length > 0 && everyBlogs.forEach((blog) => { %>
+                <% myBlogs.length > 0 && myBlogs.forEach((blog) => { %>
                     <div class="card">
                         <h2><%- blog.title %></h2>
                         <img src="<%- blog.image %>" alt="" height="200px" width="200px">
                         <h3><%- blog.subTitle %></h3>
                         <p><%-blog.description.slice(0,90) %>...</p>
-                        <p>Author: <%- blog.user.username %></p>
-                        <p>Author Email: <%- blog.user.email %></p>
                         <a href="/single/<%- blog.id %>">Read More</a>
                     </div>
                      

@@ -11,8 +11,11 @@
     <%- include('components/navbar') %>
     <div class="card">
         <h2 class="card-title"><%- blog[0].title %></h2>
+        <img src="<%- blog[0].image %>" alt="" height="200px" width="200px">
         <h3 class="card-subtitle"><%- blog[0].subTitle %></h3>
         <p class="card-description"><%- blog[0].description%></p>
+        <p class="card-description">Author:<%- blog[0].user.username%></p>
+        <p class="card-description">Author:<%- blog[0].user.email%></p>
         <footer>
             <p> 
                 Published Date: <%- blog[0].createdAt.toISOString().slice(0,10) %>
