@@ -22,7 +22,9 @@ router
   .post(isAuthenticated, upload.single("image"), createBlog);
 router.route("/single/:id").get(isAuthenticated, singleBlog);
 router.route("/delete/:id").get(isAuthenticated, deleteBlog);
-router.route("/editBlog/:id").post(isAuthenticated, editBlog);
+router
+  .route("/editBlog/:id")
+  .post(isAuthenticated, upload.single("image"), editBlog);
 router.route("/edit/:id").get(isAuthenticated, renderEditBlog);
 router.route("/myblogs").get(isAuthenticated, renderMyBlogs);
 

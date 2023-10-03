@@ -20,8 +20,12 @@
             <p> 
                 Published Date: <%- blog[0].createdAt.toISOString().slice(0,10) %>
             </p>
-            <button><a href="/delete/<%- blog[0].id %>"> Delete </a></button>
-            <button><a href="/edit/<%- blog[0].id %>"> Edit </a></button>
+            
+            <% if(user[0].id == blog[0].userId){  %>
+                <button><a href="/delete/<%- blog[0].id %>"> Delete </a></button>
+                <button><a href="/edit/<%- blog[0].id %>"> Edit </a></button>
+           <%  }  %>
+            
         </footer>
     </div>
     

@@ -12,12 +12,15 @@
 
     <div class="container">
         <h2>Submit Your Information</h2>
-        <form class="blog-form" action="/editBlog/<%- blog[0].id %>" method="post">
+        <form class="blog-form" action="/editBlog/<%- blog[0].id %>" method="post" enctype="multipart/form-data">
             <label for="title">Blog Title:</label>
             <input type="text" id="title" name="title" value="<%- blog[0].title %>" required>
 
             <label for="subtitle">Blog Subtitle:</label>
             <input type="text" id="subtitle" name="subtitle" value="<%- blog[0].subTitle%>" required>
+
+            <label for="image">Blog Image:</label>
+            <input type="file" id="image" name="image" value="<%- blog[0].image%>">
 
             <label for="description">Description:</label>
             <textarea id="description" name="description" rows="6" required><%- blog[0].description %> </textarea>

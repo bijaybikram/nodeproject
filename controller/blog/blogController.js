@@ -1,4 +1,5 @@
 const { blogs, users } = require("../../model");
+const fs = require("fs"); // fs - file system
 
 exports.renderCreateBlog = (req, res) => {
   res.render("createBlog");
@@ -47,7 +48,7 @@ exports.allBlog = async (req, res) => {
 
 exports.singleBlog = async (req, res) => {
   const id = req.params.id;
-
+  const userId = req.userId;
   //id ko data magna paryo
   const blog = await blogs.findAll({
     where: { id: id },
@@ -55,9 +56,12 @@ exports.singleBlog = async (req, res) => {
       model: users,
     },
   });
-  // console.log(blog);
 
-  res.render("singleBlog", { blog: blog });
+  const user = await users.findAll({
+    where: { id: userId },
+  });
+  // console.log(blog);
+  res.render("singleBlog", { blog: blog, user: user });
 };
 
 exports.renderEditBlog = async (req, res) => {
@@ -75,24 +79,74 @@ exports.editBlog = async (req, res) => {
   const title = req.body.title;
   const subTitle = req.body.subtitle;
   const description = req.body.description;
+  // const fileName = req.file.filename;
+  const oldDatas = await blogs.findAll({
+    where: { id: id },
+  });
+  let fileUrl;
+  if (req.file) {
+    fileUrl = process.env.PROJECT_URL + req.file.filename;
+    const oldImagePath = oldDatas[0].image; //getting the the image path from the previous data
+    const oldImageName = oldImagePath.slice(22); // slicing the path to extract only the file name
+    // console.log("This is the old image path" + oldImagePath);
+    fs.unlink(`uploads/${oldImageName}`, (err) => {
+      if (err) {
+        console.log("error happened", err);
+      } else {
+        console.log("deleted succesfully");
+      }
+    });
+  } else {
+    fileUrl = oldDatas[0].image; // old fileUrl
+  }
 
   await blogs.update(
     {
       title: title,
       subTitle: subTitle,
       description: description,
+      image: fileUrl,
     },
     { where: { id: id } }
   );
+
+  // const oldImagePath = oldDatas[0].image; //getting the the image path from the previous data
+  // const oldImageName = oldImagePath.slice(22); // slicing the path to extract only the file name
+  // // console.log("This is the old image path" + oldImagePath);
+  // if (fileUrl !== oldImagePath) {
+  //   fs.unlink(`uploads/${oldImageName}`, (err) => {
+  //     if (err) {
+  //       console.log("error happened", err);
+  //     } else {
+  //       console.log("deleted succesfully");
+  //     }
+  //   });
+  // }
 
   res.redirect("/single/" + id);
 };
 
 exports.deleteBlog = async (req, res) => {
   const id = req.params.id;
-
+  const oldDatas = await blogs.findAll({
+    where: { id: id },
+  });
   //delete gardey yo blog vanna lai
   await blogs.destroy({ where: { id: id } });
+
+  // getting the deleted blog image path and extracting the name from it
+  const oldImagePath = oldDatas[0].image;
+  const oldImageName = oldImagePath.slice(22);
+
+  // to delete the file from filesystem and database altogether
+  fs.unlink(`uploads/${oldImageName}`, (err) => {
+    if (err) {
+      console.log("error happened", err);
+    } else {
+      console.log("deleted succesfully");
+    }
+  });
+
   res.redirect("/");
 };
 
