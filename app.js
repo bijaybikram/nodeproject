@@ -5,6 +5,7 @@ require("dotenv").config(); //requiring dotenv
 const app = express();
 const sanitizeHtml = require("sanitize-html");
 const rateLimit = require("express-rate-limit");
+const helmet = require("helmet");
 
 // require express-session & connect-flash
 const session = require("express-session");
@@ -41,6 +42,7 @@ const rateLimiter = rateLimit({
     "You have exceeded the request limit, Please try again after 2 minutes",
 });
 
+app.use(helmet());
 app.use("/forgotPassword", rateLimiter);
 
 // to flash alerts and messages
@@ -65,7 +67,7 @@ app.use(express.static("public"));
 app.use(express.static("uploads/"));
 
 // form bata data aairaxa parse gara or handle gar vaneko ho
-app.use(express.json());
+app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: true }));
 
 app.use(async (req, res, next) => {
