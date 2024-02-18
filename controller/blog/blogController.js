@@ -14,6 +14,7 @@ exports.createBlog = async (req, res) => {
   // const title = req.body.title
   // const description  = req.body.description
   // const subTitle = req.body.subtitle
+  console.log(req.body, "From Createblog");
 
   //second approach
   const { title, subtitle, description } = req.body;
@@ -37,13 +38,14 @@ exports.createBlog = async (req, res) => {
 
 exports.allBlog = async (req, res) => {
   //table bata data nikalna paryo
+  const success = req.flash("success");
   const allBlogs = await blogs.findAll({
     include: {
       model: users,
     },
   });
   // console.log(allBlogs);
-  res.render("blogs", { everyBlogs: allBlogs });
+  res.render("blogs", { everyBlogs: allBlogs, success });
 };
 
 exports.singleBlog = async (req, res) => {
@@ -57,11 +59,11 @@ exports.singleBlog = async (req, res) => {
     },
   });
 
-  const user = await users.findAll({
-    where: { id: userId },
-  });
+  // const user = await users.findAll({
+  //   where: { id: userId },
+  // });
   // console.log(blog);
-  res.render("singleBlog", { blog: blog, user: user });
+  res.render("singleBlog", { blog: blog, userId: userId });
 };
 
 exports.renderEditBlog = async (req, res) => {
@@ -147,7 +149,7 @@ exports.deleteBlog = async (req, res) => {
     }
   });
 
-  res.redirect("/");
+  res.redirect("/myBlogs");
 };
 
 exports.renderMyBlogs = async (req, res) => {

@@ -2,6 +2,13 @@ const express = require("express");
 const { blogs } = require("./model/index");
 const cookieParser = require("cookie-parser");
 require("dotenv").config(); //requiring dotenv
+const app = express();
+const sanitizeHtml = require("sanitize-html");
+const rateLimit = require("express-rate-limit");
+
+// require express-session & connect-flash
+const session = require("express-session");
+const flash = require("connect-flash");
 
 // const {
 //   renderCreateBlog,
@@ -12,15 +19,40 @@ require("dotenv").config(); //requiring dotenv
 //   renderEditBlog,
 //   editBlog,
 // } = require("./controller/blog/blogController");
-const { route } = require("./routes/blogRoutes");
-const app = express();
+// const { route } = require("./routes/blogRoutes");
+
+// const dirty = "<strong>hello world</strong>";
+// const clean = sanitizeHtml(dirty);
+// console.log(clean);
 
 // importing routes
 const blogRoute = require("./routes/blogRoutes");
 const authRoute = require("./routes/authRoute");
+const { decodeToken } = require("./services/decodeToken");
 
 //datebase connection
 require("./model/index");
+
+// to limit the rate of request sent to the server
+const rateLimiter = rateLimit({
+  windowMs: 2 * 60 * 1000,
+  limit: 3,
+  message:
+    "You have exceeded the request limit, Please try again after 2 minutes",
+});
+
+app.use("/forgotPassword", rateLimiter);
+
+// to flash alerts and messages
+app.use(
+  session({
+    secret: "helloworld",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+app.use(flash());
 
 //cookie data lai parse garauna
 app.use(cookieParser());
@@ -36,8 +68,15 @@ app.use(express.static("uploads/"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   res.locals.currentUser = req.cookies.token;
+  const token = req.cookies.token;
+  if (token) {
+    const decryptedResult = await decodeToken(token, process.env.SECRETKEY);
+    if (decryptedResult && decryptedResult.id) {
+      res.locals.currentUserId = decryptedResult.id;
+    }
+  }
   next();
 });
 

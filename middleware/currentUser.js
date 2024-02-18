@@ -1,22 +1,24 @@
-const { users } = require("../model");
 const { decodeToken } = require("../services/decodeToken");
-//2nd alternative for this
-// const { promisify } = require("util");
+const { users } = require("../model");
 
-exports.isAuthenticated = async (req, res, next) => {
+exports.currentUser = async (req, res, next) => {
   const token = req.cookies.token;
 
-  // check if token given or not
+  //check if token is given or not
   if (!token) {
-    // res.send("Token must be provided");
-    return res.redirect("/login");
+    // if token is not provided and you want to continue as is and stop executing other code
+    next();
+    return;
   }
+
   // verify if token is legit or not
   const decryptedResult = await decodeToken(token, process.env.SECRETKEY);
   console.log(decryptedResult);
 
   // check if that user exist in table or not
-  const userExist = await users.findAll({ where: { id: decryptedResult.id } });
+  const userExist = await users.findAll({
+    where: { id: decryptedResult.id },
+  });
 
   if (userExist.length == 0) {
     res.send("user with that id doesn't exist!");

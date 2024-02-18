@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Form</title>
+    <title>OTP Form</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -54,20 +54,14 @@
 <body>
     <%- include('components/navbar') %>
     <div class="container">
-        <h2>Log In Form</h2>
-        <p><%- error %></p>
-        <form action="/login" method="post">
+        <h2>Enter Your OTP For Verification</h2>
+        <form action="/otp/<%- email %>" method="post">
             <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                <label for="otp">OTP:</label>
+                <input type="text" id="otp" name="otp" required>
             </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit" class="btn">Log In</button>
+            <button type="submit" class="btn">Verify</button>
         </form>
-        <a href="/forgotPassword">Forgot Password</a>
     </div>
 </body>
 </html>
