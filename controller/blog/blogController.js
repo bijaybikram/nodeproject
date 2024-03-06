@@ -1,5 +1,6 @@
 const { blogs, users } = require("../../model");
 const fs = require("fs"); // fs - file system
+const schedule = require("node-schedule");
 
 exports.renderCreateBlog = (req, res) => {
   res.render("createBlog");
@@ -158,4 +159,11 @@ exports.renderMyBlogs = async (req, res) => {
   const myBlogs = await blogs.findAll({ where: { userId: userId } });
 
   res.render("myBlogs", { myBlogs: myBlogs });
+};
+
+exports.renderSecret = (req, res) => {
+  schedule.scheduleJob("* * * * *", function () {
+    console.log("The answer to life, the universe, and everything!");
+  });
+  res.send("Hello there, This page is only visible to the admin!");
 };

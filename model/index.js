@@ -1,3 +1,4 @@
+const seedAdmin = require("../adminSeeder.js");
 const dbConfig = require("../config/dbConfig");
 const { Sequelize, DataTypes } = require("sequelize");
 
@@ -16,8 +17,10 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 
 sequelize
   .authenticate()
-  .then(() => {
+  .then(async () => {
     console.log("CONNECTED!!");
+    // check if there exist an admin or not
+    seedAdmin(db.users);
   })
   .catch((err) => {
     console.log("Error" + err);

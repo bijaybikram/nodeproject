@@ -7,12 +7,14 @@ const {
   renderEditBlog,
   deleteBlog,
   renderMyBlogs,
+  renderSecret,
 } = require("../controller/blog/blogController");
 const { currentUser } = require("../middleware/currentUser");
 const { isAuthenticated } = require("../middleware/isAuthenticated");
 
 const router = require("express").Router();
 const { multer, storage } = require("../middleware/multerConfig");
+const { restrictTo } = require("../middleware/restrictTo");
 const catchError = require("../services/catchError");
 const sanitizer = require("../services/sanitizer");
 const upload = multer({ storage: storage });
@@ -20,7 +22,11 @@ const upload = multer({ storage: storage });
 router.route("/").get(allBlog);
 router
   .route("/createBlog")
-  .get(catchError(isAuthenticated), catchError(renderCreateBlog))
+  .get(
+    catchError(isAuthenticated),
+    catchError(restrictTo("user")),
+    catchError(renderCreateBlog)
+  )
   .post(
     catchError(isAuthenticated),
     upload.single("image"),
@@ -29,10 +35,18 @@ router
   );
 router
   .route("/single/:id")
-  .get(catchError(currentUser), catchError(singleBlog));
+  .get(
+    catchError(currentUser),
+    catchError(restrictTo("user")),
+    catchError(singleBlog)
+  );
 router
   .route("/delete/:id")
-  .get(catchError(isAuthenticated), catchError(deleteBlog));
+  .get(
+    catchError(isAuthenticated),
+    catchError(restrictTo("user")),
+    catchError(deleteBlog)
+  );
 router
   .route("/editBlog/:id")
   .post(
@@ -43,11 +57,26 @@ router
   );
 router
   .route("/edit/:id")
-  .get(catchError(isAuthenticated), catchError(renderEditBlog));
+  .get(
+    catchError(isAuthenticated),
+    catchError(restrictTo("user")),
+    catchError(renderEditBlog)
+  );
 router
   .route("/myblogs")
-  .get(catchError(isAuthenticated), catchError(renderMyBlogs));
+  .get(
+    catchError(isAuthenticated),
+    catchError(restrictTo("user")),
+    catchError(renderMyBlogs)
+  );
 
+router
+  .route("/secret")
+  .get(
+    catchError(isAuthenticated),
+    catchError(restrictTo("admin")),
+    catchError(renderSecret)
+  );
 // you can do this as well (restAPI)
 // router.route("/:id").get(singleBlog).post(editBlog).delete(deleteBlog);
 
