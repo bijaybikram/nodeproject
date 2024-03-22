@@ -162,7 +162,7 @@ exports.renderMyBlogs = async (req, res) => {
 };
 
 exports.renderSecret = (req, res) => {
-  schedule.scheduleJob("* * * * *", function () {
+  schedule.scheduleJob("* /1 * * * *", function () {
     console.log("The answer to life, the universe, and everything!");
   });
   res.send("Hello there, This page is only visible to the admin!");
