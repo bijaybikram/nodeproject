@@ -52,7 +52,7 @@ exports.loginUser = async (req, res) => {
 
       const token = jwt.sign(
         { id: associatedDataWithEmail[0].id },
-        `${process.env.SECRETKEY}`,
+        process.env.SECRETKEY,
         {
           expiresIn: "30d",
         }
