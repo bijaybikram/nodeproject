@@ -32,7 +32,6 @@ exports.createBlog = async (req, res) => {
     userId: userId,
     image: process.env.PROJECT_URL + fileName,
   });
-  console.log(image);
 
   res.redirect("/");
   // res.send("form submitted succesfully!");
